@@ -551,6 +551,7 @@
       <div class="installer-box">
         <div class="installer-tabs">
           <button id="tab-install" class="tab-btn active" onclick="switchTab('install')">Quick Install</button>
+          <button id="tab-update" class="tab-btn" onclick="switchTab('update')">Update Packages</button>
           <button id="tab-uninstall" class="tab-btn" onclick="switchTab('uninstall')">Clean Uninstall & Reinstall</button>
         </div>
         <div class="command-container">
@@ -559,6 +560,9 @@
             <i class="fa-regular fa-copy"></i> Copy Command
           </button>
         </div>
+        <p id="command-note" style="margin-top: 1rem; font-size: 0.85rem; color: var(--text-muted); text-align: left; display: flex; align-items: center; gap: 0.5rem;">
+          <i class="fa-solid fa-info-circle"></i> This command downloads, extracts, and sets up launcher shortcuts for CLI, Desktop app, and IDE.
+        </p>
         <!-- Copy Toast Notification -->
         <div class="toast" id="copy-toast">
           <i class="fa-solid fa-circle-check"></i> Command copied to clipboard!
@@ -652,17 +656,27 @@
 
     function switchTab(type) {
       const tabInstall = document.getElementById('tab-install');
+      const tabUpdate = document.getElementById('tab-update');
       const tabUninstall = document.getElementById('tab-uninstall');
       const commandText = document.getElementById('command-text');
+      const commandNote = document.getElementById('command-note');
+
+      tabInstall.classList.remove('active');
+      tabUpdate.classList.remove('active');
+      tabUninstall.classList.remove('active');
 
       if (type === 'install') {
         tabInstall.classList.add('active');
-        tabUninstall.classList.remove('active');
         commandText.innerText = installCmd;
+        commandNote.innerHTML = '<i class="fa-solid fa-info-circle"></i> This command downloads, extracts, and sets up launcher shortcuts for CLI, Desktop app, and IDE.';
+      } else if (type === 'update') {
+        tabUpdate.classList.add('active');
+        commandText.innerText = installCmd;
+        commandNote.innerHTML = '<i class="fa-solid fa-sync"></i> Re-running the installation command will safely overwrite older binaries to their latest versions without wiping your workspace configurations.';
       } else {
-        tabInstall.classList.remove('active');
         tabUninstall.classList.add('active');
         commandText.innerText = uninstallCmd;
+        commandNote.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Warning: This will completely wipe all local configurations, user settings, caches, and custom paths before performing a fresh installation.';
       }
     }
 

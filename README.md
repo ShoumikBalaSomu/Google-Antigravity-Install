@@ -17,8 +17,15 @@ You can run the installation directly from your terminal without downloading any
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/ShoumikBalaSomu/Google-Antigravity-Install/main/reinstall_antigravity.sh)"
 ```
 
+### 🔄 Updating Google Antigravity
+
+Since the Antigravity product suite is installed directly from official binary packages rather than an RPM package repository, running `sudo dnf update` will not update them.
+
+To update all components (CLI, Desktop App, and IDE) to the latest versions, simply re-run the Quick Install command above. The script will automatically stop any running instances, clean up old binaries, and install the newest versions, while keeping your local workspace configurations and settings intact.
+
 ### 🧹 Clean Uninstall & Reinstall
 If you are experiencing issues or want to perform a complete clean reinstall (removing all existing application caches, settings, and profile adjustments), run this command:
+
 
 ```bash
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/ShoumikBalaSomu/Google-Antigravity-Install/main/uninstall_and_reinstall_antigravity.sh)"
