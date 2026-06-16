@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Google Antigravity Installer — Premium Linux Installer Suite</title>
+  <meta name="description" content="Automated, modern, and clean installation suite for the Google Antigravity product line (CLI, Desktop, and IDE) on Fedora Linux.">
+  
+  <!-- Modern Typography from Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    /* Reset and Core Variables */
+    :root {
+      --bg-color: #080c14;
+      --card-bg: rgba(15, 23, 42, 0.45);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --primary: #818cf8;
+      --primary-glow: rgba(129, 140, 248, 0.15);
+      --secondary: #2dd4bf;
+      --secondary-glow: rgba(45, 212, 191, 0.15);
+      --accent: #ec4899;
+      --font-family: 'Outfit', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --transition-speed: 0.3s;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: var(--font-family);
+      line-height: 1.6;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Premium Dynamic Background (Glows) */
+    body::before {
+      content: '';
+      position: absolute;
+      top: -200px;
+      left: -200px;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(129, 140, 248, 0.15) 0%, rgba(0,0,0,0) 70%);
+      pointer-events: none;
+      z-index: -1;
+      animation: drift 20s infinite alternate ease-in-out;
+    }
+
+    body::after {
+      content: '';
+      position: absolute;
+      bottom: 10%;
+      right: -100px;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(45, 212, 191, 0.12) 0%, rgba(0,0,0,0) 70%);
+      pointer-events: none;
+      z-index: -1;
+      animation: drift-reverse 25s infinite alternate ease-in-out;
+    }
+
+    @keyframes drift {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(100px, 80px) scale(1.1); }
+    }
+
+    @keyframes drift-reverse {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(-120px, -60px) scale(1.15); }
+    }
+
+    /* Container */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* Header & Navigation */
+    header {
+      background: rgba(8, 12, 20, 0.75);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 100;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 70px;
+    }
+
+    .logo {
+      font-size: 1.4rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #a5b4fc, #2dd4bf);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+    }
+
+    .logo i {
+      background: linear-gradient(135deg, #818cf8, #2dd4bf);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .nav-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: color var(--transition-speed);
+    }
+
+    .nav-link:hover {
+      color: var(--text-main);
+    }
+
+    .btn-github {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--card-border);
+      color: var(--text-main);
+      padding: 0.5rem 1rem;
+      border-radius: 9999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all var(--transition-speed);
+    }
+
+    .btn-github:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: var(--primary);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px var(--primary-glow);
+    }
+
+    /* Hero Section */
+    .hero {
+      padding-top: 150px;
+      padding-bottom: 80px;
+      text-align: center;
+    }
+
+    .badge-fedora {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(129, 140, 248, 0.08);
+      border: 1px solid rgba(129, 140, 248, 0.2);
+      color: #a5b4fc;
+      padding: 0.4rem 1rem;
+      border-radius: 9999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .hero-title {
+      font-size: 3.5rem;
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 1.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #a5b4fc 10%, #6366f1 40%, #2dd4bf 80%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 1.25rem;
+      color: var(--text-muted);
+      max-width: 700px;
+      margin: 0 auto 3rem auto;
+      font-weight: 300;
+    }
+
+    /* Command Installer Box (Glassmorphic) */
+    .installer-box {
+      max-width: 780px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      position: relative;
+    }
+
+    .installer-tabs {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      padding-bottom: 1rem;
+    }
+
+    .tab-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-family: var(--font-family);
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 0.5rem 0.75rem;
+      position: relative;
+      transition: color var(--transition-speed);
+    }
+
+    .tab-btn:hover {
+      color: var(--text-main);
+    }
+
+    .tab-btn.active {
+      color: var(--primary);
+    }
+
+    .tab-btn.active::after {
+      content: '';
+      position: absolute;
+      bottom: -13px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--primary);
+      box-shadow: 0 0 8px var(--primary);
+    }
+
+    .command-container {
+      display: flex;
+      background: rgba(8, 12, 20, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      position: relative;
+    }
+
+    .command-text {
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      color: #67e8f9;
+      white-space: nowrap;
+      overflow-x: auto;
+      text-align: left;
+      flex-grow: 1;
+    }
+
+    /* Custom Scrollbar for Command Text */
+    .command-text::-webkit-scrollbar {
+      height: 4px;
+    }
+    .command-text::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 2px;
+    }
+
+    .btn-copy {
+      background: var(--primary);
+      border: none;
+      color: #ffffff;
+      padding: 0.75rem 1.25rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: var(--font-family);
+      font-weight: 600;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all var(--transition-speed);
+      flex-shrink: 0;
+    }
+
+    .btn-copy:hover {
+      background: #6366f1;
+      transform: translateY(-1px);
+      box-shadow: 0 0 15px rgba(99, 102, 241, 0.4);
+    }
+
+    .btn-copy:active {
+      transform: translateY(1px);
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: absolute;
+      bottom: -60px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: white;
+      padding: 0.6rem 1.5rem;
+      border-radius: 9999px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      box-shadow: 0 10px 20px rgba(16, 185, 129, 0.2);
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* Features Section */
+    .features {
+      padding: 80px 0;
+      text-align: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.03);
+    }
+
+    .section-title {
+      font-size: 2.2rem;
+      font-weight: 800;
+      margin-bottom: 3rem;
+    }
+
+    .grid-features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .feature-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 2.5rem 2rem;
+      text-align: left;
+      transition: all var(--transition-speed);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      opacity: 0;
+      transition: opacity var(--transition-speed);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(255, 255, 255, 0.15);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+    }
+
+    .feature-card:hover::before {
+      opacity: 1;
+    }
+
+    .feature-icon {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      color: var(--primary);
+    }
+
+    .feature-card:nth-child(2) .feature-icon {
+      color: var(--secondary);
+    }
+
+    .feature-card:nth-child(3) .feature-icon {
+      color: var(--accent);
+    }
+
+    .feature-card h3 {
+      font-size: 1.35rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .feature-card p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      font-weight: 300;
+      line-height: 1.5;
+    }
+
+    /* System Requirements Section */
+    .system-reqs {
+      padding: 60px 0;
+      background: rgba(15, 23, 42, 0.2);
+      border-radius: 20px;
+      margin: 40px auto;
+      border: 1px solid var(--card-border);
+    }
+
+    .req-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .req-item {
+      padding: 1rem;
+    }
+
+    .req-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .req-value {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--card-border);
+      padding: 3rem 0;
+      margin-top: 80px;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      text-align: center;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .footer-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color var(--transition-speed);
+    }
+
+    .footer-link:hover {
+      color: var(--text-main);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 2.5rem;
+      }
+      .installer-box {
+        padding: 1.5rem;
+      }
+      .command-container {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .btn-copy {
+        justify-content: center;
+      }
+      .nav-links {
+        display: none; /* simple mobile nav */
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <header>
+    <div class="container nav-container">
+      <a href="#" class="logo">
+        <i class="fa-solid fa-cube"></i> Antigravity Install
+      </a>
+      <div class="nav-links">
+        <a href="#features" class="nav-link">Features</a>
+        <a href="#requirements" class="nav-link">Requirements</a>
+        <a href="https://github.com/ShoumikBalaSomu/Google-Antigravity-Install" class="btn-github" target="_blank" rel="noopener noreferrer">
+          <i class="fa-brands fa-github"></i> GitHub
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <main class="container">
+    <section class="hero">
+      <div class="badge-fedora">
+        <i class="fa-brands fa-linux"></i> Fedora 44 & GNOME Optimized
+      </div>
+      <h1 class="hero-title">Deploy <span class="gradient-text">Google Antigravity</span> Instantly</h1>
+      <p class="hero-subtitle">
+        Deploy, update, or cleanly reinstall the Google Antigravity developer suite on Fedora. Zero manual download required.
+      </p>
+
+      <!-- Glassmorphic Command Installer -->
+      <div class="installer-box">
+        <div class="installer-tabs">
+          <button id="tab-install" class="tab-btn active" onclick="switchTab('install')">Quick Install</button>
+          <button id="tab-uninstall" class="tab-btn" onclick="switchTab('uninstall')">Clean Uninstall & Reinstall</button>
+        </div>
+        <div class="command-container">
+          <div id="command-text" class="command-text">bash -c "$(curl -fsSL https://raw.githubusercontent.com/ShoumikBalaSomu/Google-Antigravity-Install/main/reinstall_antigravity.sh)"</div>
+          <button class="btn-copy" onclick="copyCommand()" id="btn-copy-el">
+            <i class="fa-regular fa-copy"></i> Copy Command
+          </button>
+        </div>
+        <!-- Copy Toast Notification -->
+        <div class="toast" id="copy-toast">
+          <i class="fa-solid fa-circle-check"></i> Command copied to clipboard!
+        </div>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features" id="features">
+      <h2 class="section-title">The Complete Suite</h2>
+      <div class="grid-features">
+        
+        <!-- CLI -->
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fa-solid fa-terminal"></i>
+          </div>
+          <h3>Antigravity CLI (<code>agy</code>)</h3>
+          <p>
+            Lightweight, high-performance command line tools linked to your local binaries. Fully configures your shell and paths automatically.
+          </p>
+        </div>
+
+        <!-- Desktop App -->
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fa-solid fa-window-restore"></i>
+          </div>
+          <h3>Antigravity 2.0 App</h3>
+          <p>
+            The premium desktop application, fully integrated system-wide into the GNOME applications menu with custom sandboxing configurations.
+          </p>
+        </div>
+
+        <!-- IDE -->
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fa-solid fa-code"></i>
+          </div>
+          <h3>Antigravity IDE</h3>
+          <p>
+            Your state-of-the-art workspace. Includes launcher configurations optimized for Wayland display servers and high-performance screens.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- System Requirements -->
+    <section class="system-reqs text-center" id="requirements" style="text-align: center;">
+      <h2 style="font-size: 1.8rem; font-weight: 800; margin-bottom: 1rem;">System Compatibility</h2>
+      <p style="color: var(--text-muted); font-size: 0.95rem; font-weight: 300;">Optimized for a premium Fedora desktop experience.</p>
+      <div class="req-grid">
+        <div class="req-item">
+          <div class="req-title">Architecture</div>
+          <div class="req-value">x86_64</div>
+        </div>
+        <div class="req-item">
+          <div class="req-title">Linux Distro</div>
+          <div class="req-value">Fedora 44 / RedHat</div>
+        </div>
+        <div class="req-item">
+          <div class="req-title">Desktop Environment</div>
+          <div class="req-value">GNOME / Wayland</div>
+        </div>
+        <div class="req-item">
+          <div class="req-title">Privileges</div>
+          <div class="req-value">Sudo Access</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-links">
+        <a href="#features" class="footer-link">Features</a>
+        <a href="#requirements" class="footer-link">Requirements</a>
+        <a href="https://github.com/ShoumikBalaSomu/Google-Antigravity-Install" class="footer-link" target="_blank" rel="noopener noreferrer">GitHub Repo</a>
+      </div>
+      <p style="margin-bottom: 0.5rem;">Created by <strong style="color: var(--text-main);">Shoumik Bala Somu</strong></p>
+      <p style="font-size: 0.8rem; color: var(--text-muted);">Licensed under the MIT License. Google and Antigravity are trademarks of their respective owners.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Tab switching logic
+    const installCmd = 'bash -c "$(curl -fsSL https://raw.githubusercontent.com/ShoumikBalaSomu/Google-Antigravity-Install/main/reinstall_antigravity.sh)"';
+    const uninstallCmd = 'bash -c "$(curl -fsSL https://raw.githubusercontent.com/ShoumikBalaSomu/Google-Antigravity-Install/main/uninstall_and_reinstall_antigravity.sh)"';
+
+    function switchTab(type) {
+      const tabInstall = document.getElementById('tab-install');
+      const tabUninstall = document.getElementById('tab-uninstall');
+      const commandText = document.getElementById('command-text');
+
+      if (type === 'install') {
+        tabInstall.classList.add('active');
+        tabUninstall.classList.remove('active');
+        commandText.innerText = installCmd;
+      } else {
+        tabInstall.classList.remove('active');
+        tabUninstall.classList.add('active');
+        commandText.innerText = uninstallCmd;
+      }
+    }
+
+    // Copy to clipboard logic
+    function copyCommand() {
+      const commandText = document.getElementById('command-text').innerText;
+      navigator.clipboard.writeText(commandText).then(() => {
+        const toast = document.getElementById('copy-toast');
+        const btnCopy = document.getElementById('btn-copy-el');
+        
+        // Show Toast
+        toast.classList.add('show');
+        
+        // Temporarily change button state
+        btnCopy.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
+        btnCopy.style.background = '#10b981';
+        btnCopy.style.boxShadow = '0 0 15px rgba(16, 185, 129, 0.4)';
+        
+        setTimeout(() => {
+          toast.classList.remove('show');
+          btnCopy.innerHTML = '<i class="fa-regular fa-copy"></i> Copy Command';
+          btnCopy.style.background = 'var(--primary)';
+          btnCopy.style.boxShadow = '';
+        }, 2500);
+      }).catch(err => {
+        console.error('Failed to copy: ', err);
+      });
+    }
+  </script>
+</body>
+</html>
