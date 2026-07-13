@@ -107,7 +107,34 @@ sudo mkdir -p /opt/antigravity
 sudo tar -xzf "$STAGING_DIR/app.tar.gz" -C /opt/antigravity --strip-components=1
 sudo chown root:root /opt/antigravity/chrome-sandbox
 sudo chmod 4755 /opt/antigravity/chrome-sandbox
-sudo ln -sf /opt/antigravity/antigravity /usr/local/bin/antigravity
+# Create launcher wrapper to automatically terminate headless zombie background processes
+echo "Creating wrapper at /usr/local/bin/antigravity..."
+sudo tee /usr/local/bin/antigravity > /dev/null << 'EOF'
+#!/bin/bash
+# Google Antigravity 2.0 Launcher Wrapper
+# Resolves the issue where closing the application leaves zombie processes in the background,
+# preventing future launches.
+
+# Pattern to detect the main process (using bracket classes to avoid matching the pgrep command itself)
+MAIN_PATTERN="(/opt/antigravity/[a]ntigravity|/usr/local/bin/[a]ntigravity)"
+RENDERER_PATTERN="(/opt/antigravity/antigravity|/usr/local/bin/antigravity).*--type=[r]enderer"
+
+# Check if main process is running
+if pgrep -f "$MAIN_PATTERN" > /dev/null; then
+    # Check if there are any active renderer processes (UI windows)
+    if ! pgrep -f "$RENDERER_PATTERN" > /dev/null; then
+        echo "Detected zombie Google Antigravity processes (no active UI windows). Cleaning up..."
+        # Kill all existing processes associated with this app (including language_server)
+        pkill -9 -f "/opt/antigravity/" || true
+        # Wait a moment for processes to clear
+        sleep 0.5
+    fi
+fi
+
+# Launch the actual application, forwarding all arguments
+exec /opt/antigravity/antigravity "$@"
+EOF
+sudo chmod +x /usr/local/bin/antigravity
 
 # 3. Install Antigravity IDE
 echo "Installing Antigravity IDE..."
